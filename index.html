@@ -262,6 +262,11 @@
             align-items: center;
             justify-content: center;
             text-align: left;
+            padding: 0 1rem;
+        }
+
+        .card-content > div {
+            width: 100%;
         }
 
         .card-front .card-content {
@@ -569,20 +574,20 @@
                     <div class="card-category" id="categoryLabel"></div>
                     <div class="card-header">
                         <span>Question</span>
-                        <span id="cardNumber">1 / 200</span>
+                        <span id="cardNumber">1 / 95</span>
                     </div>
                     <div class="card-content" id="questionText">
-                        Click shuffle to start studying
+                        <div>Click shuffle to start studying</div>
                     </div>
                     <div class="card-footer">Click card to reveal answer</div>
                 </div>
                 <div class="card-face card-back">
                     <div class="card-header">
                         <span>Answer</span>
-                        <span id="cardNumberBack">1 / 200</span>
+                        <span id="cardNumberBack">1 / 95</span>
                     </div>
                     <div class="card-content" id="answerText">
-                        Answer will appear here
+                        <div>Answer will appear here</div>
                     </div>
                     <div class="card-footer">Click card to see question</div>
                 </div>
@@ -652,15 +657,15 @@
             { category: 'autoflight', question: '# What pressure altitude or airport elevation limitations apply to the use of the autopilot for autoland?', answer: '<strong>B777/B777F:</strong> # Do not use the autopilot below 100ft RA at airport field elevations above 8,500ft (A6-DDA – A6-DDE)<br><strong>B787:</strong> # Autoland may only be used on runways at/below 8,400ft airport field elevation.' },
             
             // MEMORY ITEMS
-            { category: 'memory', question: 'What are the memory items for Aborted Engine Start?', answer: '1. (Left/Right) FUEL CONTROL switch .......................... CUTOFF' },
-            { category: 'memory', question: 'What are the memory items for Airspeed Unreliable?', answer: '1. Autopilot disconnect switch................................................Push<br>2. A/T ARM switches (both) .................................................... OFF<br>3. F/D switches (both)............................................................. OFF<br>4. Set the following gear up pitch attitude and thrust:<ul><li>Flaps extended.................................... 10 degrees and 85% N1</li><li>Flaps Up................................................ 4 degrees and 70% N1</li></ul>' },
-            { category: 'memory', question: 'What are the memory items for CABIN ALTITUDE?', answer: '1. Don the oxygen masks<br>2. Establish crew communications<br>3. Check the cabin altitude and rate<br>4. If cabin altitude is uncontrollable:<ul><li>PASS OXYGEN switch .............................. push to ON and hold for 1 second</li><li><strong>Without delay</strong>, descend to the lowest safe altitude or 10,000 ft, whichever is higher</li><li>To descend:<ul><li>Move the thrust levers to idle</li><li>Extend the speedbrakes</li><li>If structural integrity is in doubt, limit airspeed and avoid high maneuvering loads.</li><li>Descend at Vmo/Mmo</li></ul></li></ul>' },
-            { category: 'memory', question: 'What are the memory items for Dual Engine Fail/Stall?', answer: '1. FUEL CONTROL switches (both).............. CUTOFF, then RUN<br>2. RAM AIR TURBINE switch..................................Push and hold for 1 second' },
+            { category: 'memory', question: 'What are the memory items for Aborted Engine Start?', answer: '1. (Left/Right) FUEL CONTROL switch .......... CUTOFF' },
+            { category: 'memory', question: 'What are the memory items for Airspeed Unreliable?', answer: '1. Autopilot disconnect switch.........Push<br>2. A/T ARM switches (both) ............ OFF<br>3. F/D switches (both)................... OFF<br>4. Set the following gear up pitch attitude and thrust:<ul><li>Flaps extended.........10 degrees and 85% N1</li><li>Flaps Up....................4 degrees and 70% N1</li></ul>' },
+            { category: 'memory', question: 'What are the memory items for CABIN ALTITUDE?', answer: '1. Don the oxygen masks<br>2. Establish crew communications<br>3. Check the cabin altitude and rate<br>4. If cabin altitude is uncontrollable:<ul><li>PASS OXYGEN switch ........... push to ON and hold for 1 second</li><li><strong>Without delay</strong>, descend to the lowest safe altitude or 10,000 ft, whichever is higher</li><li>To descend:<ul><li>Move the thrust levers to idle</li><li>Extend the speedbrakes</li><li>If structural integrity is in doubt, limit airspeed and avoid high maneuvering loads</li><li>Descend at V<sub>MO</sub>/M<sub>MO</sub></li></ul></li></ul>' },
+            { category: 'memory', question: 'What are the memory items for Dual Engine Fail/Stall?', answer: '1. FUEL CONTROL switches (both)......... CUTOFF, then RUN<br>2. RAM AIR TURBINE switch................Push and hold for 1 second' },
             { category: 'memory', question: 'What are the memory items for ENGINE AUTOSTART L, R?', answer: '1. (Left/Right) FUEL CONTROL switch.....Confirm......... CUTOFF' },
-            { category: 'memory', question: 'What are the memory items for ENG LIMIT EXCEED/ ENG SURGE (B787) and Eng Lim / Surge / Stall (B777)?', answer: '<strong>B777/B777F:</strong><br>1. (Left/Right) A/T ARM switch.............Confirm ..................... OFF<br>2. (Left/Right) Thrust lever ...................Confirm .........Retard until ENG LIMIT EXCEED/ENG SURGE message blanks or the thrust lever is at idle<br><br><strong>B787:</strong><br>2. (Left/Right) Thrust lever ...................Confirm .........Retard until Engine indications stay within limits or the thrust lever is at idle' },
-            { category: 'memory', question: 'What are the memory items for Engine Severe Damage/Separation L, R?', answer: '1. (Left/Right) A/T ARM switch.............Confirm ..................... OFF<br>2. (Left/Right) Thrust lever ...................Confirm ...................... Idle<br>3. (Left/Right) FUEL CONTROL switchConfirm ............. CUTOFF<br>4. (Left/Right) Engine fire switch..........Confirm ......................Pull' },
-            { category: 'memory', question: 'What are the memory items for FIRE ENG L, R in flight?', answer: '1. (Left/Right) A/T ARM switch.............Confirm ..................... OFF<br>2. (Left/Right) Thrust lever ...................Confirm ...................... Idle<br>3. (Left/Right) FUEL CONTROL switchConfirm ............. CUTOFF<br>4. (Left/Right) Engine fire switch..........Confirm ......................Pull<br>5. If the FIRE ENG message stays shown:<br>(L/R) Engine fire switch ...........................Rotate to the stop and hold for 1 second' },
-            { category: 'memory', question: 'What are the memory items for STABILIZER?', answer: '1. STAB cutout switches (both) ................................ CUTOUT<br>2. Do not exceed the current airspeed' },
+            { category: 'memory', question: 'What are the memory items for ENG LIMIT EXCEED/ ENG SURGE (B787) and Eng Lim / Surge / Stall (B777)?', answer: '<strong>B777/B777F:</strong><br>1. (Left/Right) A/T ARM switch.............Confirm ......... OFF<br>2. (Left/Right) Thrust lever ...................Confirm .........Retard until ENG LIMIT EXCEED/ENG SURGE message blanks or the thrust lever is at idle<br><br><strong>B787:</strong><br>1. (Left/Right) A/T ARM switch.............Confirm ......... OFF<br>2. (Left/Right) Thrust lever ...................Confirm .........Retard until Engine indications stay within limits or the thrust lever is at idle' },
+            { category: 'memory', question: 'What are the memory items for Engine Severe Damage/Separation L, R?', answer: '1. (Left/Right) A/T ARM switch.............Confirm ......... OFF<br>2. (Left/Right) Thrust lever ...................Confirm ............ Idle<br>3. (Left/Right) FUEL CONTROL switchConfirm ..... CUTOFF<br>4. (Left/Right) Engine fire switch..........Confirm ..........Pull' },
+            { category: 'memory', question: 'What are the memory items for FIRE ENG L, R in flight?', answer: '1. (Left/Right) A/T ARM switch.............Confirm ......... OFF<br>2. (Left/Right) Thrust lever ...................Confirm ............ Idle<br>3. (Left/Right) FUEL CONTROL switchConfirm ..... CUTOFF<br>4. (Left/Right) Engine fire switch..........Confirm ..........Pull<br>5. If the FIRE ENG message stays shown:<br>(L/R) Engine fire switch .........Rotate to the stop and hold for 1 second' },
+            { category: 'memory', question: 'What are the memory items for STABILIZER?', answer: '1. STAB cutout switches (both) ................. CUTOUT<br>2. Do not exceed the current airspeed' },
             
             // NORMAL/NON-NORMAL MANEUVERS
             { category: 'maneuvers', question: 'What are the PF actions associated with an Approach to Stall or Stall Recovery?', answer: '<strong>• Initiate the recovery:</strong><ul><li>Smoothly apply nose down elevator to reduce the angle of attack until buffet or stick shaker stops</li></ul><strong>• Continue the recovery:</strong><ul><li>Roll in the shortest direction to wings level if needed</li><li>Advance thrust levers as needed</li><li>Retract the speedbrakes</li><li>Do not change gear or flap configuration, except: During liftoff, if flaps are up, call for flaps 1</li></ul><strong>• Complete the recovery:</strong><ul><li>Check airspeed and adjust thrust as needed</li><li>Establish pitch attitude</li><li>Return to the desired flight path</li><li>Re-engage the autopilot and autothrottle if desired</li></ul>' },
@@ -747,15 +752,15 @@
 
         function updateCard() {
             if (currentDeck.length === 0) {
-                questionText.innerHTML = 'No cards available';
-                answerText.innerHTML = 'Select a different category';
+                questionText.innerHTML = '<div>No cards available</div>';
+                answerText.innerHTML = '<div>Select a different category</div>';
                 categoryLabel.textContent = '';
                 return;
             }
 
             const card = currentDeck[currentIndex];
-            questionText.innerHTML = card.question;
-            answerText.innerHTML = card.answer;
+            questionText.innerHTML = `<div>${card.question}</div>`;
+            answerText.innerHTML = `<div>${card.answer}</div>`;
             categoryLabel.textContent = getCategoryName(card.category);
             
             const cardNum = `${currentIndex + 1} / ${currentDeck.length}`;
