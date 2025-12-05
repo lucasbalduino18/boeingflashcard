@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boeing 777/787 Knowledge Flashcards - Etihad Airways</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #D4AF37;
+            --secondary: #8B7355;
+            --dark: #0A0E27;
+            --darker: #050816;
+            --accent: #FFD700;
+            --text: #E8E8E8;
+            --success: #4ADE80;
+            --danger: #EF4444;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(0deg, rgba(212, 175, 55, 0.03) 0px, transparent 1px, transparent 2px, rgba(212, 175, 55, 0.03) 3px),
+                repeating-linear-gradient(90deg, rgba(212, 175, 55, 0.03) 0px, transparent 1px, transparent 2px, rgba(212, 175, 55, 0.03) 3px);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: 0.3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5)); }
+            50% { filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.8)); }
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            letter-spacing: 0.2rem;
+            text-transform: uppercase;
+        }
+
+        .controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .category-select {
+            flex: 1;
+            min-width: 200px;
+            max-width: 350px;
+        }
+
+        select, button {
+            font-family: 'Share Tech Mono', monospace;
+            padding: 0.5rem 1rem;
+            border: 2px solid var(--primary);
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--text);
+            border-radius: 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08rem;
+        }
+
+        select {
+            width: 100%;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23D4AF37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.2rem;
+            padding-right: 3rem;
+        }
+
+        button:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .stats {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 0.5rem 1rem;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--primary);
+            clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .flashcard-container {
+            perspective: 1500px;
+            margin-bottom: 2rem;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flashcard {
+            width: 100%;
+            max-width: 900px;
+            min-height: 400px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            min-height: 400px;
+            backface-visibility: hidden;
+            padding: 3rem;
+            background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(5, 8, 22, 0.95) 100%);
+            border: 2px solid var(--primary);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+        }
+
+        .card-face::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(212, 175, 55, 0.03) 2px,
+                rgba(212, 175, 55, 0.03) 4px
+            );
+            pointer-events: none;
+        }
+
+        .card-front {
+            z-index: 2;
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+        }
+
+        .card-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--primary);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-category {
+            font-size: 0.65rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        .card-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: left;
+        }
+
+        .card-front .card-content {
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        .card-back .card-content {
+            color: var(--accent);
+        }
+
+        .card-footer {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            font-size: 0.75rem;
+            color: var(--secondary);
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.15rem;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            min-width: 150px;
+        }
+
+        .btn-primary {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: var(--primary);
+        }
+
+        .btn-success {
+            background: rgba(74, 222, 128, 0.2);
+            border-color: var(--success);
+        }
+
+        .btn-success:hover {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background: var(--danger);
+            border-color: var(--danger);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 3px;
+            background: rgba(212, 175, 55, 0.2);
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .message {
+            text-align: center;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 2px solid var(--primary);
+            background: rgba(212, 175, 55, 0.1);
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .shuffle-icon {
+            display: inline-block;
+            animation: rotate 2s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 1.8rem;
+                letter-spacing: 0.2rem;
+            }
+
+            .subtitle {
+                font-size: 0.7rem;
+            }
+
+            .controls {
+                gap: 0.5rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .category-select {
+                max-width: 100%;
+                min-width: 150px;
+            }
+
+            select, button {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.7rem;
+            }
+
+            .stats {
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .stat-item {
+                padding: 0.4rem 0.8rem;
+            }
+
+            .stat-label {
+                font-size: 0.6rem;
+                margin-bottom: 0.2rem;
+            }
+
+            .stat-value {
+                font-size: 1rem;
+            }
+
+            .progress-bar {
+                height: 2px;
+                margin-bottom: 0.75rem;
+            }
+
+            .flashcard-container {
+                margin-bottom: 1rem;
+                min-height: 350px;
+            }
+
+            .card-face {
+                padding: 2rem;
+                min-height: 350px;
+            }
+
+            .card-content {
+                font-size: 1rem;
+            }
+
+            .card-front .card-content {
+                font-size: 1.1rem;
+            }
+
+            .card-header {
+                font-size: 0.65rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .card-category {
+                font-size: 0.6rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .navigation {
+                gap: 0.5rem;
+            }
+
+            .nav-btn {
+                min-width: 100px;
+                padding: 0.5rem 1rem;
+                font-size: 0.7rem;
+            }
+
+            .message {
+                padding: 1rem;
+                margin-bottom: 1rem;
+                font-size: 0.8rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            header {
+                margin-bottom: 1.5rem;
+            }
+        }
+
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            font-size: 1.5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            font-size: 0.8rem;
+            color: var(--secondary);
+            letter-spacing: 0.1rem;
+        }
+
+        footer .name {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="logo">Boeing 777/787 Knowledge</h1>
+            <p class="subtitle">Oral Validation Flashcards</p>
+            <p class="subtitle" style="font-size: 0.7rem; margin-top: 0.5rem; opacity: 0.7;">Revision 29 (09.09.2025)</p>
+        </header>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div class="controls">
+            <div class="category-select">
+                <select id="categorySelect">
+                    <option value="all">All Questions</option>
+                    <option value="general">General Limitations</option>
+                    <option value="fuel">Fuel Limitations</option>
+                    <option value="navigation">Navigation Limitations</option>
+                    <option value="engine">Engine Limitations</option>
+                    <option value="flight-controls">Flight Controls Limitations</option>
+                    <option value="communication">Communication Limitations</option>
+                    <option value="autoflight">Autoflight Limitations</option>
+                    <option value="memory">Memory Items</option>
+                    <option value="maneuvers">Normal/Non-Normal Maneuvers</option>
+                    <option value="fcom-777">FCOM Bulletins (B777/777F)</option>
+                    <option value="fcom-787">FCOM Bulletins (B787)</option>
+                    <option value="policies">Operational Policies</option>
+                    <option value="calls">Emergency Calls</option>
+                </select>
+            </div>
+            <button id="shuffleBtn" class="btn-primary">
+                <span class="shuffle-icon">⟳</span> Shuffle
+            </button>
+        </div>
+
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-label">Progress</div>
+                <div class="stat-value" id="progressStat">0/0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Known</div>
+                <div class="stat-value" id="knownStat">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Review</div>
+                <div class="stat-value" id="reviewStat">0</div>
+            </div>
+        </div>
+
+        <div id="messageArea"></div>
+
+        <div class="flashcard-container">
+            <div class="flashcard" id="flashcard">
+                <div class="card-face card-front">
+                    <div class="card-category" id="categoryLabel"></div>
+                    <div class="card-header">
+                        <span>Question</span>
+                        <span id="cardNumber">1 / 200</span>
+                    </div>
+                    <div class="card-content" id="questionText">
+                        Click shuffle to start studying
+                    </div>
+                    <div class="card-footer">Click card to reveal answer</div>
+                </div>
+                <div class="card-face card-back">
+                    <div class="card-header">
+                        <span>Answer</span>
+                        <span id="cardNumberBack">1 / 200</span>
+                    </div>
+                    <div class="card-content" id="answerText">
+                        Answer will appear here
+                    </div>
+                    <div class="card-footer">Click card to see question</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button id="prevBtn" class="nav-btn btn-primary">← Previous</button>
+            <button id="knowBtn" class="nav-btn btn-success">✓ Know It</button>
+            <button id="reviewBtn" class="nav-btn btn-danger">✗ Review</button>
+            <button id="nextBtn" class="nav-btn btn-primary">Next →</button>
+        </div>
+
+        <footer>
+            <div>Boeing 777/787 Knowledge Validation Flashcards</div>
+            <div class="name">Lucas Balduino</div>
+        </footer>
+    </div>
+
+    <script>
+        const flashcards = [
+            // GENERAL LIMITATIONS
+            { category: 'general', question: 'What is the maximum Runway slope?', answer: '+/- 2%' },
+            { category: 'general', question: 'What is the maximum Takeoff and Landing Tailwind Component?', answer: '15 knots' },
+            { category: 'general', question: 'What is the maximum unrestricted Takeoff/Landing Tailwind Component?', answer: '10 knots' },
+            { category: 'general', question: 'What are the restrictions for performing Takeoffs & Landings with Tailwind greater than 10 knots to a maximum of 15 knots?', answer: 'As specified in FCOM, Airplane General, Limitation section<br><strong>Takeoff:</strong><ul><li>OPT calculation performed</li><li>Runway is clear and dry</li><li>Antiskid and thrust reversers are fully operational</li><li>Max takeoff rated thrust is used</li></ul><strong>Landing:</strong><ul><li>Aircraft performance landing weights are verified by OPT</li><li>Antiskid and thrust reversers are fully operational</li><li>Flaps 30 landing</li><li>Auto speed brakes are used</li><li>No braking action reports less than GOOD</li></ul>' },
+            { category: 'general', question: 'What is the Maximum Operating Altitude?', answer: '<strong>B777/B777F/B787-9:</strong> 43,100 ft Pressure Altitude<br><strong>B787-10:</strong> 41,100 ft' },
+            { category: 'general', question: 'What is the Maximum Altitude for Takeoff & Landing?', answer: '<strong>B777:</strong> 8,400 ft Pressure Altitude<br><strong>B777F:</strong> 9,800 ft Pressure Altitude (Max field elevation 9,650 ft)<br><strong>B787:</strong> 14,000 ft Pressure Altitude' },
+            { category: 'general', question: '# What are the Severe Turbulent Air Penetration Speeds?', answer: '<strong>B777/B777F:</strong> 270 knots below 25,000 feet, 280 knots or 0.82 Mach whichever is lower at 25,000 feet and above. Maintain a minimum speed of 15 knots above the minimum maneuvering speed at all altitudes when airspeed is below 0.82 Mach.<br><br><strong>B787:</strong> 290 kts below 25,000 ft, 310 kts/M.84 at/above 25,000ft (whichever is lower)' },
+            { category: 'general', question: 'What is the Max EY Crosswind Component for Takeoff and Landing on a wet runway with Good Braking action?', answer: 'QRH Operational Information (OI) section for Etihad Airways wind Limits.' },
+            { category: 'general', question: 'What operational documents list the aircraft maximum taxi weight, takeoff weight, landing weight, and ZFW?', answer: 'As specified in FCOM (Weight Limitations)' },
+            { category: 'general', question: 'What is the maximum allowable difference between Captain\'s or First Officer\'s altitude display and field elevation for RVSM operation?', answer: 'Prior to takeoff the maximum allowable difference between Captain\'s or First Officer\'s altitude display and field elevation is 75 feet.' },
+            
+            // FUEL LIMITATIONS
+            { category: 'fuel', question: 'What is the Maximum tank fuel temperature (for Jet A, Jet A-1)?', answer: '<strong>B777/B777F:</strong> 49°C<br><strong>B787:</strong> At takeoff is 49°C, Inflight limited to 65°C' },
+            { category: 'fuel', question: 'What is the Minimum tank fuel temp prior to T/O?', answer: '<strong>B777/B777F:</strong> -40°C or 3°C above the fuel freezing point (highest)<br><strong>B787:</strong> -29°C' },
+            { category: 'fuel', question: 'Minimum tank fuel temp in flight is?', answer: '<strong>B777/B777F:</strong> 3°C above freezing point of fuel being used<br><strong>B787:</strong> In-flight tank fuel temperature must be maintained at least -42°C, as well as 3°C above freezing point of fuel being used' },
+            { category: 'fuel', question: 'What are the fuel loading restrictions if Center tank fuel is loaded?', answer: 'Main tanks must be scheduled to be full if centre tank fuel is loaded. Centre tank may contain 1,360kg (B787-10,000kg) of fuel with less than full main tanks provided that center tank fuel + actual ZFW do not exceed MZFW, and CG limits are observed' },
+            
+            // NAVIGATION LIMITATIONS
+            { category: 'navigation', question: 'What are the limitations on the use of the GPWS LOOK AHEAD TERRAIN ALERTING and TERRAIN DISPLAY Function?', answer: 'Prohibited within 15 nm of takeoff, approach, landing at any airport not contained in GPWS database. Do not use terrain display for navigation' },
+            { category: 'navigation', question: 'What are the operational limitations on the use of Runway Awareness and Advisory System?', answer: '<strong>B777/B777F:</strong><ul><li>Do not use RAAS voice annunciations or alerts for navigation</li><li>Do not use RAAS voice annunciations or alerts as substitute for NOTAM or ATIS information</li></ul><strong>B787:</strong> N/A' },
+            { category: 'navigation', question: '# When must weather radar operation be avoided?', answer: '# Avoid weather radar operation in a hangar, avoid weather radar operation when personnel are within the area normally enclosed by the aircraft nose radome' },
+            { category: 'navigation', question: 'What selection must be done in the Flight Management System if QFE is used for PFD altitude reference instead of QNH?', answer: 'QFE SELECTION IS PROHIBITED BY ETIHAD\'s ALTIMETER POLICY IN OM-A' },
+            
+            // ENGINE LIMITATIONS
+            { category: 'engine', question: '# Is intentional use of reverse thrust in-flight allowed?', answer: '# No, intentional selection of reverse thrust in-flight is prohibited' },
+            { category: 'engine', question: '# Can the airplane be backed using reverse thrust while on the ground?', answer: '# No, backing the airplane with use of reverse thrust is prohibited' },
+            { category: 'engine', question: '# What is the minimum oil temperature for engine start? (B787)', answer: '#Greater than -40° C' },
+            { category: 'engine', question: 'What is the limitation for brakes release when performing a pre-takeoff static engine run-up (in cold weather conditions), or a rolling takeoff with an aft CG configuration? (B787)', answer: 'Brakes release above 55% N1 is prohibited. A tip-up can occur and directional control can be reduced.' },
+            
+            // FLIGHT CONTROLS LIMITATIONS
+            { category: 'flight-controls', question: '# What precautions should be taken when making flight control changes or inputs?', answer: '# Rapid and large alternating control inputs are to be avoided, especially in combination with large changes in pitch, roll and yaw (e.g. large side slip angles) as they may result in structural failure at any speed, including below VA' },
+            { category: 'flight-controls', question: '# What is the maximum altitude with flaps extended?', answer: '# 20,000 feet' },
+            
+            // COMMUNICATION LIMITATIONS
+            { category: 'communication', question: 'Which of the ACP\'s are not to be used for SATCOM / CABIN conference? (B787)', answer: 'Captain\'s or First Officer\'s ACP are not to be used.' },
+            
+            // AUTOFLIGHT LIMITATIONS
+            { category: 'autoflight', question: '# What limitation is placed upon the use of the FLCH mode on final approach?', answer: '# Do not use FLCH on final approach below 1,000ft AAL.' },
+            { category: 'autoflight', question: '# What is the minimum engagement altitude for the autopilot after takeoff?', answer: '# 200ft AGL' },
+            { category: 'autoflight', question: '# Without LAND 2 or LAND 3 annunciated, by when must the autopilot be disengaged?', answer: '<strong>B777/B777F:</strong> # 200ft AGL<br><strong>B787-10:</strong> # 100ft AGL<br><strong>B787-9:</strong> # 135ft AGL' },
+            { category: 'autoflight', question: '# What is the maximum and minimum glideslope angle for an automatic landing?', answer: '# Maximum 3.25 degrees<br># Minimum 2.5 degrees' },
+            { category: 'autoflight', question: '# By when must the A/P be disengaged with LAND 2 or LAND 3 annunciated and glideslope angle greater than 3.25°? (B787)', answer: '# below 100ft AGL' },
+            { category: 'autoflight', question: '# What are the maximum allowable wind speeds for an automatic landing?', answer: '# Headwind: 25kts<br># Tailwind: 15kts<br># Crosswind: 25kts' },
+            { category: 'autoflight', question: '# What are the maximum allowable wind speeds for a HUD Takeoff with RVR less than 125m? (B787)', answer: '# Headwind: 25kts<br># Tailwind: 15kts<br># Crosswind: 10kts' },
+            { category: 'autoflight', question: '# What pressure altitude or airport elevation limitations apply to the use of the autopilot for autoland?', answer: '<strong>B777/B777F:</strong> # Do not use the autopilot below 100ft RA at airport field elevations above 8,500ft (A6-DDA – A6-DDE)<br><strong>B787:</strong> # Autoland may only be used on runways at/below 8,400ft airport field elevation.' },
+            
+            // MEMORY ITEMS
+            { category: 'memory', question: 'What are the memory items for Aborted Engine Start?', answer: '1. (Left/Right) FUEL CONTROL switch .......................... CUTOFF' },
+            { category: 'memory', question: 'What are the memory items for Airspeed Unreliable?', answer: '1. Autopilot disconnect switch................................................Push<br>2. A/T ARM switches (both) .................................................... OFF<br>3. F/D switches (both)............................................................. OFF<br>4. Set the following gear up pitch attitude and thrust:<ul><li>Flaps extended.................................... 10 degrees and 85% N1</li><li>Flaps Up................................................ 4 degrees and 70% N1</li></ul>' },
+            { category: 'memory', question: 'What are the memory items for CABIN ALTITUDE?', answer: '1. Don the oxygen masks<br>2. Establish crew communications<br>3. Check the cabin altitude and rate<br>4. If cabin altitude is uncontrollable:<ul><li>PASS OXYGEN switch .............................. push to ON and hold for 1 second</li><li><strong>Without delay</strong>, descend to the lowest safe altitude or 10,000 ft, whichever is higher</li><li>To descend:<ul><li>Move the thrust levers to idle</li><li>Extend the speedbrakes</li><li>If structural integrity is in doubt, limit airspeed and avoid high maneuvering loads.</li><li>Descend at Vmo/Mmo</li></ul></li></ul>' },
+            { category: 'memory', question: 'What are the memory items for Dual Engine Fail/Stall?', answer: '1. FUEL CONTROL switches (both).............. CUTOFF, then RUN<br>2. RAM AIR TURBINE switch..................................Push and hold for 1 second' },
+            { category: 'memory', question: 'What are the memory items for ENGINE AUTOSTART L, R?', answer: '1. (Left/Right) FUEL CONTROL switch.....Confirm......... CUTOFF' },
+            { category: 'memory', question: 'What are the memory items for ENG LIMIT EXCEED/ ENG SURGE (B787) and Eng Lim / Surge / Stall (B777)?', answer: '<strong>B777/B777F:</strong><br>1. (Left/Right) A/T ARM switch.............Confirm ..................... OFF<br>2. (Left/Right) Thrust lever ...................Confirm .........Retard until ENG LIMIT EXCEED/ENG SURGE message blanks or the thrust lever is at idle<br><br><strong>B787:</strong><br>2. (Left/Right) Thrust lever ...................Confirm .........Retard until Engine indications stay within limits or the thrust lever is at idle' },
+            { category: 'memory', question: 'What are the memory items for Engine Severe Damage/Separation L, R?', answer: '1. (Left/Right) A/T ARM switch.............Confirm ..................... OFF<br>2. (Left/Right) Thrust lever ...................Confirm ...................... Idle<br>3. (Left/Right) FUEL CONTROL switchConfirm ............. CUTOFF<br>4. (Left/Right) Engine fire switch..........Confirm ......................Pull' },
+            { category: 'memory', question: 'What are the memory items for FIRE ENG L, R in flight?', answer: '1. (Left/Right) A/T ARM switch.............Confirm ..................... OFF<br>2. (Left/Right) Thrust lever ...................Confirm ...................... Idle<br>3. (Left/Right) FUEL CONTROL switchConfirm ............. CUTOFF<br>4. (Left/Right) Engine fire switch..........Confirm ......................Pull<br>5. If the FIRE ENG message stays shown:<br>(L/R) Engine fire switch ...........................Rotate to the stop and hold for 1 second' },
+            { category: 'memory', question: 'What are the memory items for STABILIZER?', answer: '1. STAB cutout switches (both) ................................ CUTOUT<br>2. Do not exceed the current airspeed' },
+            
+            // NORMAL/NON-NORMAL MANEUVERS
+            { category: 'maneuvers', question: 'What are the PF actions associated with an Approach to Stall or Stall Recovery?', answer: '<strong>• Initiate the recovery:</strong><ul><li>Smoothly apply nose down elevator to reduce the angle of attack until buffet or stick shaker stops</li></ul><strong>• Continue the recovery:</strong><ul><li>Roll in the shortest direction to wings level if needed</li><li>Advance thrust levers as needed</li><li>Retract the speedbrakes</li><li>Do not change gear or flap configuration, except: During liftoff, if flaps are up, call for flaps 1</li></ul><strong>• Complete the recovery:</strong><ul><li>Check airspeed and adjust thrust as needed</li><li>Establish pitch attitude</li><li>Return to the desired flight path</li><li>Re-engage the autopilot and autothrottle if desired</li></ul>' },
+            { category: 'maneuvers', question: 'What is the maneuver for a Predictive Windshear caution alert ("MONITOR RADAR DISPLAY" aural)?', answer: '• Maneuver as required to avoid the windshear' },
+            { category: 'maneuvers', question: 'What are the actions for a Predictive Windshear warning during the takeoff roll?', answer: '• Prior to V1, reject takeoff<br>• After V1, perform the Windshear Escape Manoeuvre' },
+            { category: 'maneuvers', question: 'What are the PF actions for a Reactive Windshear escape Maneuver?', answer: '<strong>MANUAL FLIGHT</strong><ul><li>Calls "WINDSHEAR TOGA"</li><li>Disconnect autopilot</li><li>Push either TO/GA switch</li><li>Aggressively apply maximum* thrust</li><li>Disconnect autothrottle(s)</li><li>Simultaneously roll wings level and rotate toward an initial pitch attitude of 15°</li><li>Verify(B787) Retract (B777) the speedbrakes are retracted</li><li>Follow flight director TO/GA guidance</li></ul><strong>AUTOMATIC FLIGHT</strong><ul><li>Calls "WINDSHEAR TOGA"</li><li>Push either TO/GA switch</li><li>Verify TO/GA mode annunciation</li><li>Verify GA* thrust</li><li>Verify(B787) Retract (B777) speedbrakes are retracted</li><li>Monitor system performance</li></ul><strong>MANUAL OR AUTOMATIC FLIGHT</strong><ul><li>Do not change gear or flap configuration until windshear is no longer a factor</li><li>Monitor vertical speed and altitude</li><li>Do not attempt to regain lost airspeed until windshear is no longer a factor</li></ul>' },
+            { category: 'maneuvers', question: 'What is the maneuver for a GPWS Caution?', answer: '• Correct the flight path or the airplane configuration' },
+            { category: 'maneuvers', question: 'What are the PF actions for a GPWS Warning?', answer: '<ul><li>Disconnect autopilot</li><li>Disconnect autothrottle(s)</li><li>Aggressively apply maximum* thrust</li><li>Simultaneously roll wings level and rotate to an initial pitch attitude of 20°</li><li>Verify the speedbrakes are retracted</li><li>If terrain remains a threat, continue rotation up to the pitch limit indicator or stick shaker or initial buffet</li><li>Do not change gear or flap configuration until terrain separation is assured</li><li>Monitor radio altimeter for sustained or increasing terrain separation</li><li>When clear of terrain, slowly decrease pitch attitude and accelerate</li></ul>' },
+            { category: 'maneuvers', question: 'If the pitch mode is FLCH SPD or VNAV SPD or VNAV PTH and the autothrottle is in HOLD mode, how does the autothrottle function if speed decreases into the amber band?', answer: '<strong>B787:</strong><ul><li>Autothrottle will change from HOLD to THR mode and will set thrust so that if speed continues to decrease, thrust will reach CLB thrust limit when the stick shaker is activated.</li></ul><strong>B777:</strong><ul><li>Autothrottle will change from HOLD to THR mode and thrust will increase proportional to the amount speed has decreased into the amber band.</li></ul>' },
+            { category: 'maneuvers', question: 'How do you perform a go-around after touchdown?', answer: 'If a go-around is initiated before touchdown and a touchdown occurs continue with normal go-around procedure.<br><br>If a go-around is initiated after touchdown but before thrust reverser selection, continue with balked landing:<ul><li>Disengage A/P and disconnect the A/T, while smoothly advancing the thrust levers to go-around thrust (the configuration warning siren sounds due to the landing flap configuration).</li><li>Verify the speedbrakes retract and autobrakes disarm</li><li>Maintain landing flap configuration and smoothly rotate towards 15° go-around pitch attitude at no less than VREF.</li><li>Once airborne, push either TO/GA switch. This will activate the F/D go-around mode and re-engage the A/T in THR mode.</li><li>The F/D go around mode will not be available until go-around is selected after becoming airborne. This will occur when RA is 5 ft or above.</li><li>When safely airborne with a positive rate of climb continue go-around and missed approach procedure.</li></ul><strong>WARNING:</strong> If reverse thrust is selected, a full stop landing must be made. If an engine remains in reverse, safe flight is not possible' },
+            { category: 'maneuvers', question: 'What are the conditions for which the takeoff must be rejected before 80kts?', answer: 'Before 80 knots, reject the takeoff for any of the following:<ul><li>activation of the master caution system</li><li>system failure(s)</li><li>unusual noise or vibration</li><li>tire failure</li><li>abnormally slow acceleration</li><li>takeoff configuration warning</li><li>fire or fire warning</li><li>engine failure</li><li>predictive windshear warning</li><li>a side window opens (777)</li><li>the airplane is unsafe or unable to fly</li></ul>' },
+            { category: 'maneuvers', question: 'What are the conditions for which the takeoff must be rejected above 80kts?', answer: 'Above 80 knots and before V1, reject the takeoff for any of the following:<ul><li>fire or fire warning</li><li>engine failure</li><li>predictive windshear warning</li><li>the airplane is unsafe or unable to fly</li></ul>' },
+            
+            // FCOM BULLETINS - B777/777F
+            { category: 'fcom-777', question: 'What are the crew actions if an ECL closed loop line item does not complete as expected? (ETI-2 R1A)', answer: '<ul><li>Flight crew must confirm that the switch is positioned correctly.</li><li>If the system is functioning normally, or is otherwise operating as expected, override the line item, and continue with the checklist.</li><li>The failure of a line item to automatically complete is not indicative of ECL fault.</li><li>The ECL should continue to be used for all checklists.</li></ul>' },
+            { category: 'fcom-777', question: 'What approach restrictions apply in case of If ANP fluctuations occur or the VERIFY POSITION scratchpad message is shown? (ETI – 72)', answer: '<ul><li>Do not perform RNAV (RNP) AR approaches if abnormal ANP fluctuations occur.</li><li>Flight crews can perform the FMS Position Update Supplementary Procedure any time the present position is inaccurate.</li><li>If the flight crew determines that the autoflight system performance is not acceptable for the situation, manual flight may be required.</li></ul>' },
+            
+            // FCOM BULLETINS - B787
+            { category: 'fcom-787', question: 'What crew actions / steps are required if an uncommanded altitude change occurs on the MCP? (ETI-40 R8)', answer: '<ul><li>Verify the last cleared altitude</li><li>Set the correct altitude on the MCP</li><li>Disengage the autopilot</li><li>Select both flight directors to OFF</li><li>Select both flight directors ON, then select and verify the desired modes.</li><li>Engage the autopilot, then select and verify the desired modes.</li></ul>' },
+            { category: 'fcom-787', question: 'What crew actions are required to prevent the occurrences of a GLIDESLOPE alert (voice aural and caution message) when the approach has an FMC-generated IAN glide path? (ETI-46 R1)', answer: '<ul><li>During approach, make sure the correct altimeter setting is set on each altimeter, especially at higher temperatures.</li><li>At or below applicable weather minima, when suitable visual references are established, transition to use of the VGSI path for the approach</li><li>If a GLIDESLOPE alert occurs in VMC at low altitude, after confirming the aircraft is on a safe VGSI (PAPI or VASI) path, the crew can do one or more of these steps:<ul><li>Silence the GLIDESLOPE aural and continue on the VGSI path</li><li>Re-establish the FMC-based barometric IAN glide path and transition to a visual approach and landing in the touchdown zone</li><li>Discontinue the approach</li></ul></li></ul>' },
+            { category: 'fcom-787', question: 'What crew actions are required to avoid premature climb thrust reduction, when the takeoff flap setting is greater than FLAP 5? (ETI-47)', answer: '• Set the thrust reduction (THR REDUCTION) point based on a height, not a flap setting.' },
+            { category: 'fcom-787', question: 'What crew actions are required to mitigate the threat of LNAV path deviations from the published procedure for certain standard instrument departures (SIDs)? (ETI-59)', answer: '<ul><li>During preflight, if there are waypoints on a SID that are closer than approximately 10 NM and/or have course changes greater than approximately 120 degrees (total for all connected turns), manually insert a lower climb speed on the VNAV CLB page or waypoint speed constraint on the LEGS page that complies with the published speed restrictions.</li><li>At high takeoff weights and with low airspeed constraints, delay flap retraction as necessary until the series of turns has been completed.</li><li>Discuss navigation mitigation strategies, including informing ATC.</li></ul>' },
+            
+            // OPERATIONAL POLICIES
+            { category: 'policies', question: 'What are the Company speed restrictions when operating below 10,000ft AGL?', answer: 'An aircraft speed shall not exceed 250 KIAS or minimum clean speed, whichever is greater below 10,000 ft AAL, unless a specific speed has been assigned by ATC, in which case the speed shall not be greater than 250 KIAS or minimum clean speed, whichever is greater below 5,000 ft AAL' },
+            { category: 'policies', question: 'What are the maximum allowable bank angles?', answer: '<ul><li>Minor changes up to 10° bank are not considered to be a turn.</li><li>Up to 15° at/above 300 ft AGL</li><li>30° at/above 500 ft AGL</li></ul>' },
+            { category: 'policies', question: 'What are the recommended vertical speeds during climb or descent phases of flight to avoid TCAS RA?', answer: 'During climb or descent, the maximum vertical speed shall not exceed:<ul><li>2,000 ft/min when within 2,000 ft of the cleared flight level/altitude</li><li>1,500 ft/min when within 1,000 ft of the cleared flight level/altitude</li></ul>Higher rates are permissible during climb, cruise, descent, and approach only when:<ul><li>Both PF and PM confirm the absence of traffic in the vicinity that may compromise separation or result in a TCAS TA/RA; or</li><li>When explicitly requested by ATC</li></ul>Flight crew shall be particularly vigilant concerning the flight guidance modes and aircraft performance when approaching the cleared altitude/flight level (i.e., high altitude level change, turbulence, etc.)' },
+            { category: 'policies', question: 'What are the maximum Vertical Speeds approaching Terrain/Obstacles', answer: 'Below 10,000 ft AGL, at no time must rates of descent exceed the following values:<ul><li>5,000 ft/min down to an altitude 5,000 ft AGL</li><li>4,000 ft/min down to an altitude 4,000 ft AGL</li><li>3,000 ft/min down to an altitude 3,000 ft AGL</li><li>2,000 ft/min down to an altitude 2,000 ft AGL</li><li>1,500 ft/min down to an altitude 1,000 ft AGL</li><li>1,200 ft/min below 1,000 ft AGL for Cat D aircraft</li></ul>' },
+            { category: 'policies', question: 'What are the Company Stabilised Approach criteria?', answer: 'An approach is considered stabilized when the following parameters are met:<ol><li>All briefings are complete</li><li>The aircraft is on the vertical and lateral flight path.</li><li>Only small changes in heading/pitch are necessary to maintain the flight path, whilst remaining within OM-B limitations<ul><li>Pitch Up - Not greater than 8 degrees or</li><li>Pitch Down - Not greater than 3 degrees or</li><li>Below 500ft - Pitch Down – Not greater than 0 degrees</li><li>Bank angle - Not greater than 7 degrees</li></ul></li><li>The indicated airspeed shall be within a range from Vref up to target speed +10 kts (deviation is permitted below 1000 ft AAL down to 500 ft AAL only when specifically instructed by ATC to maintain a specific speed)</li><li>The thrust setting is appropriate for the aircraft configuration (deviation is permitted below 1000 ft AAL down to 500 ft AAL only when specifically instructed by ATC to maintain a specific speed)</li><li>The aircraft is in the briefed landing configuration</li><li>Rate of descend is no greater than 1,200 ft per minute for CAT D aircraft</li><li>All checklists have been completed with <strong>Speedbrakes lever in Arm position</strong></li><li>ILS approaches shall be flown within one dot of glide slope and localizer</li><li>During non-precision approaches, the course deviation must stay within ½ dot or 2.5° for VOR approaches and 5° for B777 NDB approaches</li></ol>Momentary exceedance of these parameters is allowed provided immediate corrective action is taken. A momentary excursion is defined as a deviation lasting only a few seconds and where every indication is that it will return within the stabilized criteria.' },
+            { category: 'policies', question: 'What is the latest point at which the Stabilized Approach criteria must be met during ILS/GLS and Non-ILS approaches?', answer: '<ul><li>1500 ft AAL is the point at which it is recommended to have the aircraft in the briefed landing configuration</li><li>When conducting an instrument approach, the flights shall be stabilised by 1000 ft AAL</li></ul>' },
+            { category: 'policies', question: 'What is the latest point at which the Stabilized Approach criteria must be met during a straight-in instrument approach which is cleared to be concluded visually?', answer: 'Straight-in instrument approaches which are cleared to be concluded visually must meet the Stabilized Approach Criteria at 1,000 ft AAL and adhere to the Stabilized Approach Criteria as described for ILS/GLS and Non-ILS Approaches' },
+            { category: 'policies', question: 'What is the latest point at which the Stabilized Approach criteria must be met during circling approaches and visual circuits?', answer: 'Unless specified in the OM-C, for circuits, visual or circling approaches, the aircraft shall be in the landing configuration by 1000 ft AAL except for bank, speed, thrust and rate of descent, which shall be completed by 500 ft AAL.' },
+            { category: 'policies', question: 'What is Etihad\'s policy regarding orbits on final approach?', answer: 'Orbit on the approach segment, below 2,000 ft AAL, is prohibited for any purpose, including losing of height, speed or increasing the track miles, even when requested by ATC' },
+            { category: 'policies', question: 'What is Etihad\'s policy regarding landing within the touchdown zone?', answer: '<ul><li>The desired touchdown zone lies between 300 m to 600 m from the landing threshold.</li><li>If touchdown cannot be accomplished within the desired touchdown zone, a missed approach should normally be initiated with due regard to the remaining runway length.</li><li>Spool up of engines, aircraft speed and pitch attitude must be considered carefully.</li></ul>' },
+            { category: 'policies', question: 'What is Etihad\'s policy regarding the decision to execute a go-around?', answer: '<ul><li>A decision to initiate a \'Go-around\' rests with the Commander as long as the aircraft is higher than 1,000 ft AAL</li><li>Below 1,000 ft AAL, a \'Go-around\' shall be executed as soon as any active crew (includes CM3 or CM4) member calls out "GO-AROUND", regardless of who is PF/PM</li></ul>' },
+            { category: 'policies', question: 'What is Etihad\'s policy regarding consecutive missed approaches executed because of weather conditions?', answer: '• If two consecutive missed approaches are executed for weather reasons, a third approach using the same runway/approach aid combination shall not be commenced unless a significant weather improvement occurs.' },
+            { category: 'policies', question: 'When is the Sterile Cockpit Policy in force?', answer: 'The Commander shall ensure that the "Sterile Cockpit Policy" is in force:<ul><li>From commencement of push back (or engine start when no pushback is required), to Top of Climb (TOC).</li><li>From Top of Descent (TOD) until engine shut down on stand.</li></ul>' },
+            { category: 'policies', question: 'What is the No Contact Period and when is it valid?', answer: 'During the no-contact period there shall be no contact with the flight deck from the cabin crew.<br><br>The no-contact period is from:<ul><li>The application of takeoff power until the landing gear is retracted and,</li><li>The extension of the landing gear prior to landing, until the aircraft has vacated the runway.</li></ul>' },
+            { category: 'policies', question: 'There are some situations where the flight crew must land at the nearest suitable airport. These situations include, but are not limited to, conditions where?', answer: '<ul><li>Any fire on board the aircraft, if fire-fighting is not possible or not effective.</li><li>Any engine or APU or Cargo fire.</li><li>Failure of one engine.</li><li>Total loss of electrical power</li><li>Persistent smoke of unknown origin</li><li>Dual hydraulic failure.</li><li>Structural damage.</li><li>Positive bomb threat (Red Threat).</li><li>the non–normal checklist includes the item "Plan to land at the nearest suitable airport".</li><li>fire or smoke continues</li><li>When only one AC power source remains on the B777(one main engine generator, or an APU generator, or both backup generators).</li><li>When only two AC power sources remain on the B787(two main generators, or one generator and both APU generators).</li><li>any other situation determined by the flight crew to have a significant adverse effect on safety if the flight is continued</li></ul>' },
+            { category: 'policies', question: 'What should be done in case of uncertainty about a clearance given by ATC?', answer: 'Any uncertainty about a clearance must be resolved by asking ATC to repeat the clearance.' },
+            { category: 'policies', question: 'Can a pilot request ATC for lateral or vertical flight path change if one pilot is absent from the cockpit?', answer: 'It is mandatory that, when one pilot is absent from frequency, no request for lateral or vertical change of the flight path is made to ATC.' },
+            { category: 'policies', question: 'What are the mandatory altitude checks and callouts during climb and descent phases of flight', answer: 'The mandatory checks and callouts are:<ul><li>"10,000 ft above airport elevation"</li><li>Every 10,000 ft (FL200 and above, in climb and descent): "Passing ALT/FL…, climbing / Descending FL/ALT…"</li><li>1,000 ft before reaching the cleared Altitude or Flight Level: "one thousand to go"</li></ul>' },
+            { category: 'policies', question: 'The word "Confirm" is added to checklist items when both crewmembers must verbally agree before action is taken. During non-normal situations, verbal confirmation is required for?', answer: '<ul><li>Engine thrust lever</li><li>Fuel control switch</li><li>Autothrottle arm switch</li><li>Engine or APU fire switch or Cargo fire arm switch</li><li>Generator Drive disconnect switch</li><li>Any other reference item requiring confirmation in the non-normal checklist.</li></ul>Note: This does not apply to the Dual Eng Fail/Stall checklist.' },
+            { category: 'policies', question: 'For the purpose of fuel planning and in-flight fuel management, at what point is an aircraft considered to be "in-flight," from which the in-flight fuel management policies shall apply?', answer: 'An aircraft is considered in-flight at the commencement of push back or after the first engine start, whichever occurs first.' },
+            { category: 'policies', question: 'For the purpose of MEL applicability, what defines the commencement of the flight?', answer: 'For the purpose of MEL applicability, the commencement of the flight is defined as the moment the aircraft begins to move under its own power with the intention of preparing for take-off.' },
+            { category: 'policies', question: 'Under what conditions may the commander "continue towards the destination"?', answer: 'The commander may continue towards the destination aerodrome provided a safe landing can be achieved at two suitable aerodromes with no less than Final Reserve Fuel (FRF).' },
+            { category: 'policies', question: 'When may the commander "commit to land" at a specific aerodrome?', answer: 'The commander shall only commit to land at a specific aerodrome after taking into account any operational factors, weather and traffic conditions that may cause a delay to land and therefore be able to determine that a safe landing can be achieved with not less than Final Reserve Fuel (FRF).' },
+            { category: 'policies', question: 'When will the Flight Deck crew declare "MINIMUM FUEL"?', answer: 'When having committed to land at a specific aerodrome, any change in the existing clearance may result in landing with less than planned final reserve fuel. (FRF)' },
+            { category: 'policies', question: 'When will the Flight Deck crew declare "MAYDAY FUEL"?', answer: 'When the calculated usable fuel on landing, at the nearest adequate airport where a safe landing can be performed, is less than Final Reserve Fuel (FRF).' },
+            
+            // EMERGENCY CALLS
+            { category: 'calls', question: 'What is the standard PA required to summon the CM to the flight deck for a NITS briefing, or in case of pilot incapacitation?', answer: '"This is the Captain, Cabin Manager to the Flight Deck Immediately"' },
+            { category: 'calls', question: 'What is the standard PA required to initiate a Rapid Deplaning? (Except for security related events, i.e. Bomb threat)', answer: '<strong>Time Available:</strong><br>"This is the Captain, Cabin Manager to the Flight Deck Immediately"<br><br><strong>After NITS briefing or if time not available:</strong><br>Refer to the QRH Back Cover.1 for Rapid Deplaning NNC and associated PA' },
+            { category: 'calls', question: 'What is the standard PA required to warn the crew that an abnormal event or emergency situation has arisen on ground, or an emergency evacuation may soon be required?', answer: '"This is the Captain, Attention Crew at Stations, Attention Crew at Stations"' },
+            { category: 'calls', question: 'What is the standard PA required to inform that an Evacuation is NOT required after the "Attention Crew at Stations" call has been performed?', answer: '"This is the Captain, Normal Operations, Normal Operations, Passengers remain seated"' },
+            { category: 'calls', question: 'What is the standard PA required to command an Evacuation?', answer: '"This is the Captain, Evacuate, Evacuate"' },
+            { category: 'calls', question: 'What is the standard PA required to warn the cabin crew immediately after take-off that an abnormal event has arisen?', answer: '"This is the Captain, Attention Crew at Stations, Attention Crew at Stations"' },
+            { category: 'calls', question: 'What is the standard PA required 2 minutes before impact (e.g. in case of forced landing, landing with abnormal L/G or ditching situation)?', answer: '"This is the Captain, Attention Crew at Stations, Attention Crew at Stations"' },
+            { category: 'calls', question: 'What is the standard PA required 30 seconds before impact (e.g. in case of forced landing, landing with abnormal L/G or ditching situation?', answer: '"This is the Captain, BRACE, BRACE"' },
+            { category: 'calls', question: 'What is the standard PA in the event of an Emergency Descent Pre-recorded announcement (PRA) is unserviceable?', answer: '"This is the Captain, Emergency descent, Emergency descent."' },
+            { category: 'calls', question: 'What is the standard PA required in case the cabin altitude remains above 10,000ft during a level off while conducting an Emergency Descent?', answer: '"This is the Captain, Passengers and Crew remain on oxygen until advised."' },
+            { category: 'calls', question: 'What is the standard PA required once the cabin altitude is at or below 10,000ft after completing an Emergency Descent?', answer: '"This is the Captain, Emergency Descent completed, Emergency descent completed."' },
+            { category: 'calls', question: 'What is standard PA in the cabin when the aircraft experiences Unexpected Moderate to Severe Turbulence?', answer: '"Cabin Crew be seated"' }
+        ];
+
+        let currentIndex = 0;
+        let currentDeck = [...flashcards];
+        let knownCards = new Set();
+        let reviewCards = new Set();
+        let isFlipped = false;
+
+        const flashcardElement = document.getElementById('flashcard');
+        const questionText = document.getElementById('questionText');
+        const answerText = document.getElementById('answerText');
+        const categoryLabel = document.getElementById('categoryLabel');
+        const cardNumber = document.getElementById('cardNumber');
+        const cardNumberBack = document.getElementById('cardNumberBack');
+        const progressFill = document.getElementById('progressFill');
+        const progressStat = document.getElementById('progressStat');
+        const knownStat = document.getElementById('knownStat');
+        const reviewStat = document.getElementById('reviewStat');
+        const categorySelect = document.getElementById('categorySelect');
+        const messageArea = document.getElementById('messageArea');
+
+        function updateCard() {
+            if (currentDeck.length === 0) {
+                questionText.innerHTML = 'No cards available';
+                answerText.innerHTML = 'Select a different category';
+                categoryLabel.textContent = '';
+                return;
+            }
+
+            const card = currentDeck[currentIndex];
+            questionText.innerHTML = card.question;
+            answerText.innerHTML = card.answer;
+            categoryLabel.textContent = getCategoryName(card.category);
+            
+            const cardNum = `${currentIndex + 1} / ${currentDeck.length}`;
+            cardNumber.textContent = cardNum;
+            cardNumberBack.textContent = cardNum;
+
+            updateStats();
+        }
+
+        function getCategoryName(category) {
+            const names = {
+                'general': 'General Limitations',
+                'fuel': 'Fuel Limitations',
+                'navigation': 'Navigation Limitations',
+                'engine': 'Engine Limitations',
+                'flight-controls': 'Flight Controls',
+                'communication': 'Communication',
+                'autoflight': 'Autoflight',
+                'memory': 'Memory Items',
+                'maneuvers': 'Maneuvers',
+                'fcom-777': 'FCOM B777/777F',
+                'fcom-787': 'FCOM B787',
+                'policies': 'Operational Policies',
+                'calls': 'Emergency Calls'
+            };
+            return names[category] || category;
+        }
+
+        function updateStats() {
+            progressStat.textContent = `${currentIndex + 1}/${currentDeck.length}`;
+            knownStat.textContent = knownCards.size;
+            reviewStat.textContent = reviewCards.size;
+            
+            const progress = ((currentIndex + 1) / currentDeck.length) * 100;
+            progressFill.style.width = `${progress}%`;
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            flashcardElement.classList.toggle('flipped');
+        }
+
+        function showMessage(text, duration = 2000) {
+            messageArea.innerHTML = `<div class="message">${text}</div>`;
+            setTimeout(() => {
+                messageArea.innerHTML = '';
+            }, duration);
+        }
+
+        function nextCard() {
+            if (isFlipped) flipCard();
+            currentIndex = (currentIndex + 1) % currentDeck.length;
+            updateCard();
+        }
+
+        function prevCard() {
+            if (isFlipped) flipCard();
+            currentIndex = (currentIndex - 1 + currentDeck.length) % currentDeck.length;
+            updateCard();
+        }
+
+        function markKnown() {
+            const cardId = `${currentDeck[currentIndex].category}-${currentDeck[currentIndex].question}`;
+            knownCards.add(cardId);
+            reviewCards.delete(cardId);
+            showMessage('✓ Marked as Known');
+            nextCard();
+        }
+
+        function markReview() {
+            const cardId = `${currentDeck[currentIndex].category}-${currentDeck[currentIndex].question}`;
+            reviewCards.add(cardId);
+            knownCards.delete(cardId);
+            showMessage('✗ Marked for Review');
+            nextCard();
+        }
+
+        function shuffleDeck() {
+            if (isFlipped) flipCard();
+            currentDeck.sort(() => Math.random() - 0.5);
+            currentIndex = 0;
+            showMessage('🔀 Deck Shuffled!');
+            updateCard();
+        }
+
+        function filterByCategory(category) {
+            if (isFlipped) flipCard();
+            
+            if (category === 'all') {
+                currentDeck = [...flashcards];
+            } else {
+                currentDeck = flashcards.filter(card => card.category === category);
+            }
+            
+            currentIndex = 0;
+            updateCard();
+            showMessage(`Filtered to: ${getCategoryName(category)}`);
+        }
+
+        // Event Listeners
+        flashcardElement.addEventListener('click', flipCard);
+        document.getElementById('nextBtn').addEventListener('click', nextCard);
+        document.getElementById('prevBtn').addEventListener('click', prevCard);
+        document.getElementById('knowBtn').addEventListener('click', markKnown);
+        document.getElementById('reviewBtn').addEventListener('click', markReview);
+        document.getElementById('shuffleBtn').addEventListener('click', shuffleDeck);
+        categorySelect.addEventListener('change', (e) => filterByCategory(e.target.value));
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowRight':
+                case ' ':
+                    if (e.key === ' ') e.preventDefault();
+                    if (isFlipped) nextCard();
+                    else flipCard();
+                    break;
+                case 'ArrowLeft':
+                    prevCard();
+                    break;
+                case 'ArrowUp':
+                    e.preventDefault();
+                    if (!isFlipped) flipCard();
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault();
+                    if (isFlipped) flipCard();
+                    break;
+                case 'k':
+                case 'K':
+                    markKnown();
+                    break;
+                case 'r':
+                case 'R':
+                    markReview();
+                    break;
+            }
+        });
+
+        // Touch support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        flashcardElement.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        flashcardElement.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) nextCard();
+            if (touchEndX > touchStartX + 50) prevCard();
+        }
+
+        // Initialize
+        updateCard();
+    </script>
+</body>
+</html>
