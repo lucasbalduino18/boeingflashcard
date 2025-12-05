@@ -918,7 +918,8 @@
             if (touchEndX > touchStartX + 50) prevCard();
         }
 
-        // Initialize
+        // Initialize - shuffle deck on load
+        currentDeck.sort(() => Math.random() - 0.5);
         updateCard();
     </script>
 </body>
